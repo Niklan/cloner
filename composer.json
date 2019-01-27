@@ -1,0 +1,24 @@
+{
+  "name": "drupal/cloner",
+  "type": "drupal-module",
+  "description": "The entity clone plugin system.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/cloner",
+  "authors": [
+    {
+      "name": "Nikita Malyshev (Niklan)",
+      "homepage": "https://niklan.net",
+      "role": "Maintainer"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://www.drupal.org/node/NID/committers",
+      "role": "Contributors"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/cloner",
+    "source": "http://cgit.drupalcode.org/cloner"
+  }
+}

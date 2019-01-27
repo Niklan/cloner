@@ -1,0 +1,8 @@
+name: Cloner Examples
+type: module
+description: The entity clone plugin examples.
+package: Development
+core: 8.x
+
+dependencies:
+  - cloner:cloner

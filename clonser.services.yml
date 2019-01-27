@@ -1,0 +1,8 @@
+services:
+  plugin.manager.cloner.content_entity:
+    class: Drupal\cloner\Plugin\ClonerPluginManager
+    arguments: [entity, '@container.namespaces', '@cache.discovery', '@module_handler']
+
+  plugin.manager.cloner.config_entity:
+    class: Drupal\cloner\Plugin\ClonerPluginManager
+    arguments: [path, '@container.namespaces', '@cache.discovery', '@module_handler']
