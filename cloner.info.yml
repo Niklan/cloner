@@ -1,0 +1,5 @@
+name: Cloner
+type: module
+description: The entity clone plugin system.
+package: Custom
+core: 8.x

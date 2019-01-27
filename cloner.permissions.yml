@@ -1,0 +1,4 @@
+access any cloner:
+  title: 'Access to every cloner form.'
+  description: 'Bypass all checks for every form clone.'
+  restrict access: true
