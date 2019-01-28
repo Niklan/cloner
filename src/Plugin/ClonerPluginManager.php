@@ -3,6 +3,8 @@
 namespace Drupal\cloner\Plugin;
 
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Plugin\Factory\ContainerFactory;
@@ -50,6 +52,36 @@ class ClonerPluginManager extends DefaultPluginManager {
     // Use container factory instead of DefaultFactory to support Dependency
     // Injection of services.
     $this->factory = new ContainerFactory($this->getDiscovery());
+  }
+
+  /**
+   * Looking for applicable plugins in current plugin manager.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+   *   The entity type.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity to be cloned.
+   *
+   * @return array
+   *   An array with suitable plugins.
+   */
+  public function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+    $content_entity_definitions = $this->getDefinitions();
+    $applicable_plugins = [];
+
+    // Collect all applicable plugins for current entity.
+    foreach ($content_entity_definitions as $plugin_id => $plugin_definition) {
+      $callback = [
+        $plugin_definition['class'],
+        'isApplicable',
+      ];
+
+      if (forward_static_call($callback, $entity_type, $entity)) {
+        $applicable_plugins[] = $plugin_definition;
+      }
+    }
+
+    return $applicable_plugins;
   }
 
 }

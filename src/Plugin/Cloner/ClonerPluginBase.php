@@ -2,6 +2,7 @@
 
 namespace Drupal\cloner\Plugin\Cloner;
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -43,8 +44,8 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
 
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-    $this->entityTypeId = $plugin_definition['entity_type_id'];
-    $this->entity = $plugin_definition['entity'];
+    $this->entityTypeId = $configuration['entity_type_id'];
+    $this->entity = $configuration['entity'];
   }
 
   /**
@@ -59,21 +60,32 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
   }
 
   /**
-   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
-   *
-   * @return bool
+   * {@inheritdoc}
    */
-  public static function isApplicable(EntityTypeInterface $entity_type) {
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
     // By default, every cloner will be available.
     return TRUE;
   }
 
   /**
-   * @param array $form
-   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   * {@inheritdoc}
    */
   public function buildCloneForm(array $form, FormStateInterface $form_state) {
     return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function processClone(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []) {
+
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntity() {
+    return $this->entity;
   }
 
 }
