@@ -5,12 +5,16 @@
  * Primary module hooks for Cloner module.
  */
 
+/** @var \Drupal\cloner\Plugin\ClonerPluginManager $content_manager */
+//$content_manager = \Drupal::service('plugin.manager.cloner.content_entity');
+//dump($content_manager->getDefinitions());
+
 /**
  * Implements hook_entity_type_alter().
  */
 function cloner_entity_type_alter(array &$entity_types) {
   /** @var \Drupal\Core\Entity\EntityType[] $entity_types */
   foreach ($entity_types as $entity_type_id => $entity_type) {
-    dump($entity_type);
+    $entity_type->setLinkTemplate('cloner-form', "/cloner/$entity_type_id/{{$entity_type_id}}");
   }
 }

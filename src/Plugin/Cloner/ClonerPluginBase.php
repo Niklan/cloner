@@ -72,7 +72,7 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
    * @param array $form
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    */
-  public function cloneForm(array $form, FormStateInterface $form_state) {
+  public function buildCloneForm(array $form, FormStateInterface $form_state) {
     return [];
   }
 

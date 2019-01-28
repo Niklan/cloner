@@ -1,0 +1,14 @@
+services:
+  plugin.manager.cloner.content_entity:
+    class: Drupal\cloner\Plugin\ClonerPluginManager
+    arguments: [content_entity, '@container.namespaces', '@cache.discovery', '@module_handler']
+
+#  plugin.manager.cloner.config_entity:
+#    class: Drupal\cloner\Plugin\ClonerPluginManager
+#    arguments: [config_entity, '@container.namespaces', '@cache.discovery', '@module_handler']
+
+  cloner.event_subscriber:
+    class: Drupal\cloner\EventSubscriber\ClonerSubscriber
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }
