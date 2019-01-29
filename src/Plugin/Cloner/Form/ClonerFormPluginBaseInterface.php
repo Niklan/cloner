@@ -1,18 +1,17 @@
 <?php
 
-namespace Drupal\cloner\Plugin\Cloner;
+namespace Drupal\cloner\Plugin\Cloner\Form;
 
-use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * The base interface for all Clone plugin instances.
+ * Interface ClonerFormPluginBaseInterface
  *
  * @package Drupal\cloner\Plugin\Cloner
  */
-interface ClonerPluginInterface extends PluginInspectionInterface {
+interface ClonerFormPluginBaseInterface {
 
   /**
    * Checks is this plugin need to be activated.
@@ -38,26 +37,40 @@ interface ClonerPluginInterface extends PluginInspectionInterface {
    * @return array
    *   The form structure.
    */
-  public function buildCloneForm(array $form, FormStateInterface $form_state);
+  public function buildForm(array $form, FormStateInterface $form_state);
 
   /**
-   * Gets the source entity.
+   * Validates form.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @param array $form
+   *   The form array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state);
+
+  /**
+   * Gets entity which is will be cloned.
+   *
+   * @return EntityInterface
+   *   The cloned entity.
    */
   public function getEntity();
 
   /**
-   * Processing cloning.
+   * Gets cloner plugin type.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity_source
-   *   The original entity.
-   * @param \Drupal\Core\Entity\EntityInterface $entity_destination
-   *   The destination entity.
-   * @param array $context
-   *   An array with context of clone. Can contain:
-   *   - form_state: An instance of $form_state if called from form.
+   * @return string
+   *   The cloner plugin type.
    */
-  public function processClone(EntityInterface $entity_source, EntityInterface $entity_destination, array $context);
+  public function getClonerPluginType();
+
+  /**
+   * Gets cloner plugin id.
+   *
+   * @return string
+   *   The cloner plugin id.
+   */
+  public function getClonerPluginId();
 
 }

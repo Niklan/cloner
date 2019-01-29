@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\cloner\Plugin\Cloner;
+namespace Drupal\cloner\Plugin\Cloner\Form;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
@@ -10,18 +10,11 @@ use Drupal\Core\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * The base for all Cloner plugins.
+ * Class ClonerFormPluginBase
  *
  * @package Drupal\cloner\Plugin\Cloner
  */
-abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterface, ContainerFactoryPluginInterface {
-
-  /**
-   * The entity type id to be cloned.
-   *
-   * @var string
-   */
-  protected $entityTypeId;
+abstract class ClonerFormPluginBase extends PluginBase implements ClonerFormPluginBaseInterface, ContainerFactoryPluginInterface {
 
   /**
    * The entity object which need to be cloned.
@@ -44,7 +37,6 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
 
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-    $this->entityTypeId = $configuration['entity_type_id'];
     $this->entity = $configuration['entity'];
   }
 
@@ -63,22 +55,15 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
    * {@inheritdoc}
    */
   public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
-    // By default, every cloner will be available.
+    // By default, clone forms are available.
     return TRUE;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildCloneForm(array $form, FormStateInterface $form_state) {
-    return [];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function processClone(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []) {
-
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+    // Validation is optional.
   }
 
   /**
@@ -86,6 +71,20 @@ abstract class ClonerPluginBase extends PluginBase implements ClonerPluginInterf
    */
   public function getEntity() {
     return $this->entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getClonerPluginType() {
+    return $this->pluginDefinition['cloner_plugin_type'];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getClonerPluginId() {
+    return $this->pluginDefinition['cloner_plugin_id'];
   }
 
 }

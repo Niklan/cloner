@@ -7,6 +7,10 @@ services:
     class: Drupal\cloner\Plugin\ClonerPluginManager
     arguments: [config_entity, '@container.namespaces', '@cache.discovery', '@module_handler']
 
+  plugin.manager.cloner.form:
+    class: Drupal\cloner\Plugin\ClonerPluginManager
+    arguments: [form, '@container.namespaces', '@cache.discovery', '@module_handler']
+
   cloner.event_subscriber:
     class: Drupal\cloner\EventSubscriber\ClonerSubscriber
     arguments: ['@entity_type.manager']

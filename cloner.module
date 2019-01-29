@@ -5,10 +5,6 @@
  * Primary module hooks for Cloner module.
  */
 
-/** @var \Drupal\cloner\Plugin\ClonerPluginManager $content_manager */
-//$content_manager = \Drupal::service('plugin.manager.cloner.content_entity');
-//dump($content_manager->getDefinitions());
-
 /**
  * Implements hook_entity_type_alter().
  */

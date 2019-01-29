@@ -69,13 +69,12 @@ class ClonerSubscriber implements EventSubscriberInterface {
   protected function prepareRoute($entity_definition) {
     if ($cloner_form_route_template = $entity_definition->getLinkTemplate('cloner-form')) {
       $entity_type_id = $entity_definition->id();
-      $form = $entity_definition instanceof ContentEntityTypeInterface ? '\Drupal\cloner\Form\ClonerContentEntityCloneForm' : '\Drupal\cloner\Form\ClonerConfigEntityCloneForm';
       // /cloner/entity_type_id/{entity_type_id}
       // @see cloner_entity_type_alter().
       $cloner_route = new Route($cloner_form_route_template);
       $cloner_route
         ->addDefaults([
-          '_form' => $form,
+          '_form' => '\Drupal\cloner\Form\ClonerCloneForm',
           '_title' => 'Clone',
         ])
         ->addRequirements([

@@ -3,11 +3,9 @@
 namespace Drupal\cloner_examples\Plugin\Cloner\ContentEntity;
 
 use Drupal\cloner\Annotation\ClonerContentEntity;
-use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityPluginBase;
+use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityClonePluginBase;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * @ClonerContentEntity(
@@ -15,36 +13,14 @@ use Drupal\Core\Form\FormStateInterface;
  *   label = @Translation("Clone node article"),
  * )
  */
-class NodeArticle extends ClonerContentEntityPluginBase {
+class NodeArticle extends ClonerContentEntityClonePluginBase {
 
   /**
    * {@inheritdoc}
    */
-  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
-    return $entity_type->id() == 'node' && $entity->bundle() == 'article';
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function buildCloneForm(array $form, FormStateInterface $form_state) {
-    $form = parent::buildCloneForm($form, $form_state);
-    $entity = $this->getEntity();
-
-    $form['new_title'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Title for cloned entity'),
-      '#required' => TRUE,
-      '#default_value' => $entity->label(),
-    ];
-
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function processClone(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []) {
+  public function cloneEntity(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []) {
+    // If executed via ClonerForm.
+    // @see \Drupal\cloner_examples\Plugin\Cloner\Form\NodeArticleCloneForm
     if (isset($context['form_state'])) {
       /** @var \Drupal\Core\Form\FormStateInterface $form_state */
       $form_state = $context['form_state'];
