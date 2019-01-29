@@ -23,6 +23,6 @@ interface ClonerClonePluginBaseInterface extends PluginInspectionInterface {
    *   An array with context of clone. Can contain:
    *   - form_state: An instance of $form_state if called from form.
    */
-  public function cloneEntity(EntityInterface $entity_source, EntityInterface $entity_destination, array $context);
+  public function cloneEntity(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []);
 
 }
