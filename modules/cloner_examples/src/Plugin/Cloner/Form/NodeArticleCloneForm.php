@@ -5,6 +5,8 @@ namespace Drupal\cloner_examples\Plugin\Cloner\Form;
 use Drupal\cloner\Annotation\ClonerForm;
 use Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBase;
 use Drupal\Core\Annotation\Translation;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -16,6 +18,13 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class NodeArticleCloneForm extends ClonerFormPluginBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+    return $entity_type->id() == 'node' && $entity->bundle() == 'article';
+  }
 
   /**
    * {@inheritdoc}
