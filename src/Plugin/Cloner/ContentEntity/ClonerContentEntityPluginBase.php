@@ -15,7 +15,7 @@ abstract class ClonerContentEntityPluginBase extends ClonerPluginBase implements
    * {@inheritdoc}
    */
   public function getEntityBundle() {
-    return $this->pluginDefinition['entity_bundle'];
+    return $this->entity->bundle();
   }
 
 }

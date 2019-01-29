@@ -76,7 +76,7 @@ class ClonerPluginManager extends DefaultPluginManager {
         'isApplicable',
       ];
 
-      if (forward_static_call($callback, $entity_type, $entity)) {
+      if ($plugin_definition['enabled'] && forward_static_call($callback, $entity_type, $entity)) {
         $applicable_plugins[] = $plugin_definition;
       }
     }

@@ -6,6 +6,7 @@ use Drupal\cloner\Annotation\ClonerContentEntity;
 use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityPluginBase;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
@@ -15,6 +16,13 @@ use Drupal\Core\Form\FormStateInterface;
  * )
  */
 class NodeArticle extends ClonerContentEntityPluginBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+    return $entity_type->id() == 'node' && $entity->bundle() == 'article';
+  }
 
   /**
    * {@inheritdoc}

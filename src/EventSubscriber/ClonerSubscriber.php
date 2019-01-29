@@ -2,7 +2,6 @@
 
 namespace Drupal\cloner\EventSubscriber;
 
-use Drupal\Core\Entity\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteBuildEvent;
@@ -70,8 +69,7 @@ class ClonerSubscriber implements EventSubscriberInterface {
   protected function prepareRoute($entity_definition) {
     if ($cloner_form_route_template = $entity_definition->getLinkTemplate('cloner-form')) {
       $entity_type_id = $entity_definition->id();
-      // @todo replace second on config when it's ready.
-      $form = $entity_definition instanceof ContentEntityTypeInterface ? '\Drupal\cloner\Form\ClonerContentEntityCloneForm' : '\Drupal\cloner\Form\ClonerContentEntityCloneForm';
+      $form = $entity_definition instanceof ContentEntityTypeInterface ? '\Drupal\cloner\Form\ClonerContentEntityCloneForm' : '\Drupal\cloner\Form\ClonerConfigEntityCloneForm';
       // /cloner/entity_type_id/{entity_type_id}
       // @see cloner_entity_type_alter().
       $cloner_route = new Route($cloner_form_route_template);
@@ -81,8 +79,7 @@ class ClonerSubscriber implements EventSubscriberInterface {
           '_title' => 'Clone',
         ])
         ->addRequirements([
-          // @todo replace with permissions.
-          '_access' => 'TRUE',
+          '_access_cloner_form' => 'TRUE',
         ])
         ->setOption('_admin_route', TRUE)
         // Save entity type id for further easy definition in clone form.
