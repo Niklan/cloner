@@ -40,6 +40,12 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
       '#default_value' => $entity->label(),
     ];
 
+    $form['machine_name'] = [
+      '#type' => 'textfield',
+      '#default_value' => $entity->id(),
+      '#required' => TRUE,
+    ];
+
     return $form;
   }
 
@@ -49,6 +55,11 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if ($form_state->getValue('new_title') == $this->getEntity()->label()) {
       $form_state->setErrorByName('new_title', t('Title for new entity must be different from original.'));
+    }
+
+    // @todo add entityTypeManager for check.
+    if ($form_state->getValue('machine_name') == $this->getEntity()->id()) {
+      $form_state->setErrorByName('machine_name', t('The config entity id must be unique'));
     }
   }
 
