@@ -12,6 +12,6 @@ use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityClonePluginBase
  */
 abstract class ClonerConfigEntityClonePluginBase extends ClonerClonePluginBase implements ClonerContentEntityClonePluginBaseInterface {
 
-
+  // @todo add methods to get config id and label names.
 
 }
