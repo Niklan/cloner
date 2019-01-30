@@ -157,6 +157,7 @@ class ClonerCloneForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Cancel'),
       '#submit' => ['::cancelForm'],
+      '#limit_validation_errors' => [],
     ];
 
     return $form;

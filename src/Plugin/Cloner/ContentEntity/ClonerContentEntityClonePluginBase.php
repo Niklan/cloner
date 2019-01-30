@@ -12,5 +12,12 @@ use Drupal\cloner\Plugin\Cloner\ClonerClonePluginBase;
 abstract class ClonerContentEntityClonePluginBase extends ClonerClonePluginBase implements ClonerContentEntityClonePluginBaseInterface {
 
   // @todo method for entity references.
+  protected function cloneEntityReferences() {
+
+  }
+
+  protected function cloneEntityReferencesUsingPlugin() {
+
+  }
 
 }

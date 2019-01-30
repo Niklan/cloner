@@ -14,7 +14,8 @@ use Drupal\Core\Form\FormStateInterface;
  *   id = "cloner_examples_node_article_clone_form",
  *   label = @Translation("Clone node article"),
  *   cloner_plugin_type = "content_entity",
- *   cloner_plugin_id = "cloner_examples_node_article"
+ *   cloner_plugin_id = "cloner_examples_node_article",
+ *   entity_operation_label = @Translation("Clone")
  * )
  */
 class NodeArticleCloneForm extends ClonerFormPluginBase {

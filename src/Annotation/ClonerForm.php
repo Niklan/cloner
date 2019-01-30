@@ -45,6 +45,16 @@ class ClonerForm extends Plugin {
   public $cloner_plugin_id;
 
   /**
+   * The entity operation label.
+   *
+   * If set, this label will be added to entity operations that links to clone
+   * form.
+   *
+   * @var string
+   */
+  public $entity_operation_label;
+
+  /**
    * The plugin status.
    *
    * By default all plugins are enabled and this value set to TRUE. You can set
