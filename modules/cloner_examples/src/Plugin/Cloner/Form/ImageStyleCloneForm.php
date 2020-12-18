@@ -2,9 +2,7 @@
 
 namespace Drupal\cloner_examples\Plugin\Cloner\Form;
 
-use Drupal\cloner\Annotation\ClonerForm;
 use Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBase;
-use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;

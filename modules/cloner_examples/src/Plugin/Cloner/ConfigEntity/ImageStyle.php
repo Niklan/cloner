@@ -2,9 +2,7 @@
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ConfigEntity;
 
-use Drupal\cloner\Annotation\ClonerConfigEntity;
 use Drupal\cloner\Plugin\Cloner\ConfigEntity\ClonerConfigEntityClonePluginBase;
-use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\EntityInterface;
 
 /**

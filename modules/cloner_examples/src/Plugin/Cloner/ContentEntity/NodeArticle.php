@@ -2,9 +2,7 @@
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ContentEntity;
 
-use Drupal\cloner\Annotation\ClonerContentEntity;
 use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityClonePluginBase;
-use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\EntityInterface;
 
 /**

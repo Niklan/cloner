@@ -2,7 +2,6 @@
 
 namespace Drupal\cloner\Plugin\Cloner;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
