@@ -2,4 +2,5 @@ name: Cloner
 type: module
 description: The entity clone plugin system.
 package: Custom
-core: 8.x
+core_version_requirement: ^8.8 || ^9
+php: 7.3
