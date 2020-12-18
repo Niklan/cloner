@@ -52,12 +52,12 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if ($form_state->getValue('new_title') == $this->getEntity()->label()) {
-      $form_state->setErrorByName('new_title', t('Title for new entity must be different from original.'));
+      $form_state->setErrorByName('new_title', $this->t('Title for new entity must be different from original.'));
     }
 
     // @todo add entityTypeManager for check.
     if ($form_state->getValue('machine_name') == $this->getEntity()->id()) {
-      $form_state->setErrorByName('machine_name', t('The config entity id must be unique'));
+      $form_state->setErrorByName('machine_name', $this->t('The config entity id must be unique'));
     }
   }
 

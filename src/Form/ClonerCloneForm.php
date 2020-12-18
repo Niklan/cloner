@@ -149,7 +149,7 @@ class ClonerCloneForm extends FormBase {
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => t('Clone'),
+      '#value' => $this->t('Clone'),
       '#button_type' => 'primary',
     ];
 
