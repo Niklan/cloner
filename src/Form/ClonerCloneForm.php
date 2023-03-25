@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\cloner\Form;
 
 use Drupal\cloner\Plugin\ClonerPluginManager;

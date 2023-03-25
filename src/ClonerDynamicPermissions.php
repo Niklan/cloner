@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\cloner;
 
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
