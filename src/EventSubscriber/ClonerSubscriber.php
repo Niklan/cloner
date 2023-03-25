@@ -2,6 +2,7 @@
 
 namespace Drupal\cloner\EventSubscriber;
 
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Routing\RouteBuildEvent;
 use Drupal\Core\Routing\RoutingEvents;
@@ -11,29 +12,22 @@ use Symfony\Component\Routing\Route;
 /**
  * Cloner event subscriber.
  */
-class ClonerSubscriber implements EventSubscriberInterface {
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+final class ClonerSubscriber implements EventSubscriberInterface {
 
   /**
    * Constructs event subscriber.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
-    $this->entityTypeManager = $entity_type_manager;
-  }
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+  ) {}
 
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     return [
       RoutingEvents::ALTER => ['alterRoutes'],
     ];
@@ -45,7 +39,7 @@ class ClonerSubscriber implements EventSubscriberInterface {
    * @param \Drupal\Core\Routing\RouteBuildEvent $event
    *   The route build event.
    */
-  public function alterRoutes(RouteBuildEvent $event) {
+  public function alterRoutes(RouteBuildEvent $event): void {
     $route_collection = $event->getRouteCollection();
     $entity_definitions = $this->entityTypeManager->getDefinitions();
 
@@ -62,35 +56,39 @@ class ClonerSubscriber implements EventSubscriberInterface {
    * @param \Drupal\Core\Entity\EntityTypeInterface $entity_definition
    *   The entity definition.
    *
-   * @return \Symfony\Component\Routing\Route
+   * @return \Symfony\Component\Routing\Route|null
    *   The route for cloner form, NULL otherwise.
    */
-  protected function prepareRoute($entity_definition) {
-    if ($cloner_form_route_template = $entity_definition->getLinkTemplate('cloner-form')) {
-      $entity_type_id = $entity_definition->id();
-      // /cloner/entity_type_id/{entity_type_id}
-      // @see cloner_entity_type_alter().
-      $cloner_route = new Route($cloner_form_route_template);
-      $cloner_route
-        ->addDefaults([
-          '_form' => '\Drupal\cloner\Form\ClonerCloneForm',
-          '_title' => 'Clone',
-        ])
-        ->addRequirements([
-          '_access_cloner_form' => 'TRUE',
-        ])
-        ->setOption('_admin_route', TRUE)
-        // Save entity type id for further easy definition in clone form.
-        ->setOption('_cloner_entity_type_id', $entity_type_id)
-        // Set param type to get entity object, instead of raw id.
-        ->setOption('parameters', [
-          $entity_type_id => [
-            'type' => 'entity:' . $entity_type_id,
-          ],
-        ]);
+  protected function prepareRoute(EntityTypeInterface $entity_definition): ?Route {
+    $cloner_form_route_template = $entity_definition->getLinkTemplate('cloner-form');
 
-      return $cloner_route;
+    if (!$cloner_form_route_template) {
+      return NULL;
     }
+
+    $entity_type_id = $entity_definition->id();
+    // /cloner/entity_type_id/{entity_type_id}
+    // @see cloner_entity_type_alter().
+    $cloner_route = new Route($cloner_form_route_template);
+    $cloner_route
+      ->addDefaults([
+        '_form' => '\Drupal\cloner\Form\ClonerCloneForm',
+        '_title' => 'Clone',
+      ])
+      ->addRequirements([
+        '_access_cloner_form' => 'TRUE',
+      ])
+      ->setOption('_admin_route', TRUE)
+      // Save entity type id for further easy definition in clone form.
+      ->setOption('_cloner_entity_type_id', $entity_type_id)
+      // Set param type to get entity object, instead of raw id.
+      ->setOption('parameters', [
+        $entity_type_id => [
+          'type' => 'entity:' . $entity_type_id,
+        ],
+      ]);
+
+    return $cloner_route;
   }
 
 }

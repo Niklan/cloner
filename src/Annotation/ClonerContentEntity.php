@@ -16,13 +16,13 @@ class ClonerContentEntity extends Plugin {
    *
    * @var string
    */
-  public $id;
+  public string $id;
 
   /**
    * The plugin label.
    *
    * @var string
    */
-  public $label;
+  public string $label;
 
 }

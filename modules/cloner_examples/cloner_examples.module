@@ -14,7 +14,7 @@ use Drupal\Core\Form\FormStateInterface;
  * execute cloner programmatically. This example shows that @ClonerContentEntity
  * and @ClonerConfigEntity plugins is standalone.
  */
-function cloner_examples_form_node_article_edit_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+function cloner_examples_form_node_article_edit_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
   $current_user = \Drupal::currentUser();
   $clone_access = $current_user->hasPermission('access all entity cloner') || $current_user->hasPermission('access node cloner');
 
@@ -32,7 +32,7 @@ function cloner_examples_form_node_article_edit_form_alter(array &$form, FormSta
 /**
  * Callback for clone button on node article edit form.
  */
-function _cloner_example_clone_node_article_submit(array &$form, FormStateInterface $form_state) {
+function _cloner_example_clone_node_article_submit(array &$form, FormStateInterface $form_state): void {
   // Node is content entity type, so call specific manager.
   /** @var \Drupal\cloner\Plugin\ClonerPluginManager $cloner_content_entity_plugin_manager */
   $cloner_content_entity_plugin_manager = \Drupal::service('plugin.manager.cloner.content_entity');

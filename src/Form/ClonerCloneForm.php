@@ -4,6 +4,8 @@ namespace Drupal\cloner\Form;
 
 use Drupal\cloner\Plugin\ClonerPluginManager;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -18,90 +20,57 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package Drupal\cloner\Form
  */
-class ClonerCloneForm extends FormBase {
+final class ClonerCloneForm extends FormBase {
 
   /**
    * The entity to be cloned.
    *
    * @var \Drupal\Core\Entity\EntityInterface
    */
-  protected $entity;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
+  protected EntityInterface $entity;
 
   /**
    * Then entity type.
    *
    * @var \Drupal\Core\Entity\EntityTypeInterface
    */
-  protected $entityType;
-
-  /**
-   * The plugin manager for cloner form plugins.
-   *
-   * @var \Drupal\cloner\Plugin\ClonerPluginManager
-   */
-  protected $clonerFormPluginManager;
-
-  /**
-   * The plugin manager for content entity plugins.
-   *
-   * @var \Drupal\cloner\Plugin\ClonerPluginManager
-   */
-  protected $clonerContentEntityPluginManager;
-
-  /**
-   * The plugin manager for config entity plugins.
-   *
-   * @var \Drupal\cloner\Plugin\ClonerPluginManager
-   */
-  protected $clonerConfigEntityPluginManager;
+  protected EntityTypeInterface $entityType;
 
   /**
    * ClonerCloneForm constructor.
    *
-   * @param \Drupal\cloner\Plugin\ClonerPluginManager $cloner_form_plugin_manager
+   * @param \Drupal\cloner\Plugin\ClonerPluginManager $clonerFormPluginManager
    *   The plugin manager for cloner form plugins.
-   * @param \Drupal\cloner\Plugin\ClonerPluginManager $cloner_content_entity_plugin_manager
+   * @param \Drupal\cloner\Plugin\ClonerPluginManager $clonerContentEntityPluginManager
    *   The plugin manager for content entity plugins.
-   * @param \Drupal\cloner\Plugin\ClonerPluginManager $cloner_config_entity_plugin_manager
+   * @param \Drupal\cloner\Plugin\ClonerPluginManager $clonerConfigEntityPluginManager
    *   The plugin manager for config entity plugins.
-   * @param \Drupal\Core\Routing\CurrentRouteMatch $current_route_match
+   * @param \Drupal\Core\Routing\CurrentRouteMatch $currentRouteMatch
    *   The current route match.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
    *
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
-    ClonerPluginManager $cloner_form_plugin_manager,
-    ClonerPluginManager $cloner_content_entity_plugin_manager,
-    ClonerPluginManager $cloner_config_entity_plugin_manager,
-    CurrentRouteMatch $current_route_match,
-    EntityTypeManagerInterface $entity_type_manager
+    protected ClonerPluginManager $clonerFormPluginManager,
+    protected ClonerPluginManager $clonerContentEntityPluginManager,
+    protected ClonerPluginManager $clonerConfigEntityPluginManager,
+    protected CurrentRouteMatch $currentRouteMatch,
+    protected EntityTypeManagerInterface $entityTypeManager,
   ) {
 
-    $this->clonerFormPluginManager = $cloner_form_plugin_manager;
-    $this->clonerContentEntityPluginManager = $cloner_content_entity_plugin_manager;
-    $this->clonerConfigEntityPluginManager = $cloner_config_entity_plugin_manager;
-    $this->entityTypeManager = $entity_type_manager;
-
     // Trying to find entity object.
-    $entity_type_id = $current_route_match->getRouteObject()
+    $entity_type_id = $this->currentRouteMatch->getRouteObject()
       ->getOption('_cloner_entity_type_id');
-    $this->entity = $current_route_match->getParameter($entity_type_id);
-    $this->entityType = $entity_type_manager->getDefinition($entity_type_id);
+    $this->entity = $this->currentRouteMatch->getParameter($entity_type_id);
+    $this->entityType = $this->entityTypeManager->getDefinition($entity_type_id);
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('plugin.manager.cloner.form'),
       $container->get('plugin.manager.cloner.content_entity'),
@@ -114,14 +83,14 @@ class ClonerCloneForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'cloner_clone_form';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
 
     $applicable_plugins = $this->clonerFormPluginManager->isApplicable($this->entityType, $this->entity);
 
@@ -166,7 +135,7 @@ class ClonerCloneForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     $cloner_plugin_id = $form_state->getValue('cloner_plugin_id');
 
     /** @var \Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface $cloner_form_instance */
@@ -180,7 +149,7 @@ class ClonerCloneForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $cloner_plugin_id = $form_state->getValue('cloner_plugin_id');
 
     /** @var \Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface $cloner_form_instance */
@@ -231,7 +200,7 @@ class ClonerCloneForm extends FormBase {
    *
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  public function cancelForm(array &$form, FormStateInterface $form_state) {
+  public function cancelForm(array &$form, FormStateInterface $form_state): void {
     $entity = $this->entity;
 
     if ($entity && $entity->hasLinkTemplate('canonical')) {

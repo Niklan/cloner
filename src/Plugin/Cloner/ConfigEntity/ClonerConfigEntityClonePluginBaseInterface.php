@@ -9,6 +9,4 @@ use Drupal\cloner\Plugin\Cloner\ClonerClonePluginBaseInterface;
  *
  * @package Drupal\cloner\Plugin\Cloner\ContentEntity
  */
-interface ClonerConfigEntityClonePluginBaseInterface extends ClonerClonePluginBaseInterface {
-
-}
+interface ClonerConfigEntityClonePluginBaseInterface extends ClonerClonePluginBaseInterface {}

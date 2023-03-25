@@ -8,6 +8,8 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
+ * Defines the 'cloner_examples_image_style' entity cloner form.
+ *
  * @ClonerForm(
  *   id = "cloner_examples_image_style",
  *   label = @Translation("Clone image style"),
@@ -21,14 +23,14 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
   /**
    * {@inheritdoc}
    */
-  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): bool {
     return $entity_type->id() == 'image_style';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $entity = $this->getEntity();
 
     $form['new_title'] = [
@@ -50,7 +52,7 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     if ($form_state->getValue('new_title') == $this->getEntity()->label()) {
       $form_state->setErrorByName('new_title', $this->t('Title for new entity must be different from original.'));
     }

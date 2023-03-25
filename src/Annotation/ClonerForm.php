@@ -16,14 +16,14 @@ class ClonerForm extends Plugin {
    *
    * @var string
    */
-  public $id;
+  public string $id;
 
   /**
    * The plugin label.
    *
    * @var string
    */
-  public $label;
+  public string $label;
 
   /**
    * The cloner plugin type to execute.
@@ -32,7 +32,7 @@ class ClonerForm extends Plugin {
    *
    * @var string
    */
-  public $cloner_plugin_type;
+  public string $cloner_plugin_type;
 
   /**
    * The cloner plugin id to execute.
@@ -42,7 +42,7 @@ class ClonerForm extends Plugin {
    *
    * @var string
    */
-  public $cloner_plugin_id;
+  public string $cloner_plugin_id;
 
   /**
    * The entity operation label.
@@ -52,7 +52,7 @@ class ClonerForm extends Plugin {
    *
    * @var string
    */
-  public $entity_operation_label;
+  public string $entity_operation_label;
 
   /**
    * The plugin status.
@@ -62,7 +62,7 @@ class ClonerForm extends Plugin {
    *
    * @var bool
    */
-  public $enabled;
+  public bool $enabled;
 
   /**
    * The wight of plugin.
@@ -71,6 +71,6 @@ class ClonerForm extends Plugin {
    *
    * @var int
    */
-  public $weight;
+  public int $weight;
 
 }

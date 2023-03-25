@@ -13,42 +13,28 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @todo maybe generate permissions only for entities which has plugins, or per
  * plugin permissions.
  */
-class ClonerDynamicPermissions implements ContainerInjectionInterface {
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The translation manager.
-   *
-   * @var \Drupal\Core\StringTranslation\TranslationManager
-   */
-  protected $translationManager;
+final class ClonerDynamicPermissions implements ContainerInjectionInterface {
 
   /**
    * ClonerDynamicPermissions constructor.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_manager
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\Core\StringTranslation\TranslationManager $string_translation
+   * @param \Drupal\Core\StringTranslation\TranslationManager $translationManager
    *   The translation manager.
    */
-  public function __construct(EntityTypeManagerInterface $entity_manager, TranslationManager $string_translation) {
-    $this->entityTypeManager = $entity_manager;
-    $this->translationManager = $string_translation;
-  }
+  public function __construct(
+      protected EntityTypeManagerInterface $entityTypeManager,
+      protected TranslationManager $translationManager,
+  ) {}
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
+  public static function create(ContainerInterface $container): self {
+    return new self(
       $container->get('entity_type.manager'),
-      $container->get('string_translation')
+      $container->get('string_translation'),
     );
   }
 
@@ -58,7 +44,7 @@ class ClonerDynamicPermissions implements ContainerInjectionInterface {
    * @return array
    *   An array with permissions.
    */
-  public function permissions() {
+  public function permissions(): array {
     $permissions = [];
 
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {

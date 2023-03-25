@@ -21,7 +21,7 @@ abstract class ClonerFormPluginBase extends PluginBase implements ClonerFormPlug
    *
    * @var \Drupal\Core\Entity\EntityInterface
    */
-  protected $entity;
+  protected EntityInterface $entity;
 
   /**
    * ClonerPluginBase constructor.
@@ -43,18 +43,14 @@ abstract class ClonerFormPluginBase extends PluginBase implements ClonerFormPlug
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition
-    );
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
+    return new static($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): bool {
     // By default, clone forms are available.
     return TRUE;
   }
@@ -62,28 +58,28 @@ abstract class ClonerFormPluginBase extends PluginBase implements ClonerFormPlug
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
     // Validation is optional.
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getEntity() {
+  public function getEntity(): EntityInterface {
     return $this->entity;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getClonerPluginType() {
+  public function getClonerPluginType(): string {
     return $this->pluginDefinition['cloner_plugin_type'];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getClonerPluginId() {
+  public function getClonerPluginId(): string {
     return $this->pluginDefinition['cloner_plugin_id'];
   }
 

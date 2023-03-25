@@ -6,6 +6,8 @@ use Drupal\cloner\Plugin\Cloner\ConfigEntity\ClonerConfigEntityClonePluginBase;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
+ * Defines the 'cloner_example_image_style' entity cloner.
+ *
  * @ClonerConfigEntity(
  *   id = "cloner_example_image_style",
  *   label = @Translation("Clone image style")
@@ -16,7 +18,7 @@ class ImageStyle extends ClonerConfigEntityClonePluginBase {
   /**
    * {@inheritdoc}
    */
-  public function cloneEntity(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []) {
+  public function cloneEntity(EntityInterface $entity_source, EntityInterface $entity_destination, array $context = []): void {
     $id_key = $this->getDefinitionKey($entity_source, 'id');
     $label_key = $this->getDefinitionKey($entity_source, 'label');
 

@@ -24,7 +24,7 @@ interface ClonerFormPluginBaseInterface {
    * @return bool
    *   The status of plugin. TRUE if active, FALSE otherwise.
    */
-  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity);
+  public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): bool;
 
   /**
    * Build clone form.
@@ -37,7 +37,7 @@ interface ClonerFormPluginBaseInterface {
    * @return array
    *   The form structure.
    */
-  public function buildForm(array $form, FormStateInterface $form_state);
+  public function buildForm(array $form, FormStateInterface $form_state): array;
 
   /**
    * Validates form.
@@ -47,7 +47,7 @@ interface ClonerFormPluginBaseInterface {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state.
    */
-  public function validateForm(array &$form, FormStateInterface $form_state);
+  public function validateForm(array &$form, FormStateInterface $form_state): void;
 
   /**
    * Gets entity which is will be cloned.
@@ -55,7 +55,7 @@ interface ClonerFormPluginBaseInterface {
    * @return EntityInterface
    *   The cloned entity.
    */
-  public function getEntity();
+  public function getEntity(): EntityInterface;
 
   /**
    * Gets cloner plugin type.
@@ -63,7 +63,7 @@ interface ClonerFormPluginBaseInterface {
    * @return string
    *   The cloner plugin type.
    */
-  public function getClonerPluginType();
+  public function getClonerPluginType(): string;
 
   /**
    * Gets cloner plugin id.
@@ -71,6 +71,6 @@ interface ClonerFormPluginBaseInterface {
    * @return string
    *   The cloner plugin id.
    */
-  public function getClonerPluginId();
+  public function getClonerPluginId(): string;
 
 }

@@ -13,14 +13,14 @@ use Symfony\Component\DependencyInjection\Container;
 /**
  * Cloner plugin manager.
  */
-class ClonerPluginManager extends DefaultPluginManager {
+final class ClonerPluginManager extends DefaultPluginManager {
 
   /**
    * The cloner plugin type.
    *
    * @var string
    */
-  protected $clonerPluginType;
+  protected string $clonerPluginType;
 
   /**
    * Cloner Plugin Manager constructor.
@@ -83,7 +83,7 @@ class ClonerPluginManager extends DefaultPluginManager {
    * @return array
    *   An array with suitable plugins sorted by weight.
    */
-  public function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+  public function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): array {
     if ($this->clonerPluginType !== 'form') {
       return [];
     }
