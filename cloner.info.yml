@@ -3,3 +3,4 @@ type: module
 description: The entity clone plugin system.
 package: Custom
 core_version_requirement: ^9.5 || ^10
+php: 8.1
