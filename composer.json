@@ -11,6 +11,10 @@
         "php": ">=8.1",
         "drupal/core": "^9.5 || ^10"
     },
+    "require-dev": {
+        "chi-teck/drupal-coder-extension": "^2.0.0-alpha3",
+        "mglaman/drupal-check": "^1.4"
+    },
     "authors": [
         {
             "name": "Nikita Malyshev (Niklan)",
