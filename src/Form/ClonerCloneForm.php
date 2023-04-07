@@ -1,9 +1,9 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Form;
 
+use Drupal\cloner\Plugin\Cloner\ClonerClonePluginBaseInterface;
+use Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface;
 use Drupal\cloner\Plugin\ClonerPluginManager;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class ClonerCloneFormBase.
  *
- * The base form for all other clone base.
+ * The base form for all other clone bases.
  *
  * @package Drupal\cloner\Form
  */
@@ -26,15 +26,11 @@ final class ClonerCloneForm extends FormBase {
 
   /**
    * The entity to be cloned.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
    */
   protected EntityInterface $entity;
 
   /**
    * Then entity type.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
    */
   protected EntityTypeInterface $entityType;
 
@@ -78,7 +74,7 @@ final class ClonerCloneForm extends FormBase {
       $container->get('plugin.manager.cloner.content_entity'),
       $container->get('plugin.manager.cloner.config_entity'),
       $container->get('current_route_match'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
     );
   }
 
@@ -96,18 +92,17 @@ final class ClonerCloneForm extends FormBase {
 
     $applicable_plugins = $this->clonerFormPluginManager->isApplicable($this->entityType, $this->entity);
 
-    // If there is no applicable available plugins, show 404.
-    if (empty($applicable_plugins)) {
+    // If there are no applicable available plugins, show 404.
+    if (\count($applicable_plugins) === 0) {
       throw new NotFoundHttpException();
     }
 
-    $cloner_winner = array_shift($applicable_plugins);
+    $cloner_winner = \array_shift($applicable_plugins);
 
-    // Create instance of the plugin.
-    /** @var \Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface $cloner_form_instance */
     $cloner_form_instance = $this->clonerFormPluginManager->createInstance($cloner_winner['id'], [
       'entity' => $this->entity,
     ]);
+    \assert($cloner_form_instance instanceof ClonerFormPluginBaseInterface);
 
     // Get plugin form.
     $form = $cloner_form_instance->buildForm($form, $form_state);
@@ -140,10 +135,10 @@ final class ClonerCloneForm extends FormBase {
   public function validateForm(array &$form, FormStateInterface $form_state): void {
     $cloner_plugin_id = $form_state->getValue('cloner_plugin_id');
 
-    /** @var \Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface $cloner_form_instance */
     $cloner_form_instance = $this->clonerFormPluginManager->createInstance($cloner_plugin_id, [
       'entity' => $this->entity,
     ]);
+    \assert($cloner_form_instance instanceof ClonerFormPluginBaseInterface);
 
     $cloner_form_instance->validateForm($form, $form_state);
   }
@@ -154,13 +149,12 @@ final class ClonerCloneForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $cloner_plugin_id = $form_state->getValue('cloner_plugin_id');
 
-    /** @var \Drupal\cloner\Plugin\Cloner\Form\ClonerFormPluginBaseInterface $cloner_form_instance */
     $cloner_form_instance = $this->clonerFormPluginManager->createInstance($cloner_plugin_id, [
       'entity' => $this->entity,
     ]);
+    \assert($cloner_form_instance instanceof ClonerFormPluginBaseInterface);
 
     $cloner_clone_plugin_id = $cloner_form_instance->getClonerPluginId();
-    /** @var \Drupal\cloner\Plugin\Cloner\ClonerClonePluginBaseInterface $cloner_clone_plugin_instance */
     $cloner_clone_plugin_instance = NULL;
 
     switch ($cloner_form_instance->getClonerPluginType()) {
@@ -173,13 +167,14 @@ final class ClonerCloneForm extends FormBase {
         break;
     }
 
-    if (!$cloner_clone_plugin_instance) {
+    if (!isset($cloner_clone_plugin_instance)) {
       throw new PluginNotFoundException($cloner_clone_plugin_id);
     }
 
     // Begin clone.
     $entity_cloned = $this->entity->createDuplicate();
     // Send form state in context. Allow to use plugins without forms.
+    \assert($cloner_clone_plugin_instance instanceof ClonerClonePluginBaseInterface);
     $cloner_clone_plugin_instance->cloneEntity($this->entity, $entity_cloned, [
       'form_state' => $form_state,
     ]);
@@ -188,7 +183,7 @@ final class ClonerCloneForm extends FormBase {
 
     $form_state->setRedirect(
       $entity_cloned->toUrl()->getRouteName(),
-      $entity_cloned->toUrl()->getRouteParameters()
+      $entity_cloned->toUrl()->getRouteParameters(),
     );
   }
 
@@ -208,7 +203,7 @@ final class ClonerCloneForm extends FormBase {
     if ($entity && $entity->hasLinkTemplate('canonical')) {
       $form_state->setRedirect(
         $entity->toUrl()->getRouteName(),
-        $entity->toUrl()->getRouteParameters()
+        $entity->toUrl()->getRouteParameters(),
       );
     }
     else {

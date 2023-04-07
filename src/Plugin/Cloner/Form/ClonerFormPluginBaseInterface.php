@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin\Cloner\Form;
 
@@ -9,7 +7,7 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Interface ClonerFormPluginBaseInterface
+ * Defines cloner form plugin interface.
  *
  * @package Drupal\cloner\Plugin\Cloner
  */
@@ -54,7 +52,7 @@ interface ClonerFormPluginBaseInterface {
   /**
    * Gets entity which is will be cloned.
    *
-   * @return EntityInterface
+   * @return \Drupal\Core\Entity\EntityInterface
    *   The cloned entity.
    */
   public function getEntity(): EntityInterface;

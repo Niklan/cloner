@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner_examples\Plugin\Cloner\Form;
 
@@ -20,13 +18,13 @@ use Drupal\Core\Form\FormStateInterface;
  *   entity_operation_label = @Translation("Clone")
  * )
  */
-class ImageStyleCloneForm extends ClonerFormPluginBase {
+final class ImageStyleCloneForm extends ClonerFormPluginBase {
 
   /**
    * {@inheritdoc}
    */
   public static function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): bool {
-    return $entity_type->id() == 'image_style';
+    return $entity_type->id() === 'image_style';
   }
 
   /**
@@ -55,12 +53,12 @@ class ImageStyleCloneForm extends ClonerFormPluginBase {
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state): void {
-    if ($form_state->getValue('new_title') == $this->getEntity()->label()) {
+    if ($form_state->getValue('new_title') === $this->getEntity()->label()) {
       $form_state->setErrorByName('new_title', $this->t('Title for new entity must be different from original.'));
     }
 
     // @todo add entityTypeManager for check.
-    if ($form_state->getValue('machine_name') == $this->getEntity()->id()) {
+    if ($form_state->getValue('machine_name') === $this->getEntity()->id()) {
       $form_state->setErrorByName('machine_name', $this->t('The config entity id must be unique'));
     }
   }

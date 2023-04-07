@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Access;
 
@@ -22,7 +20,7 @@ final class AccessClonerForm implements AccessInterface {
    *   The current route match.
    */
   public function __construct(
-    protected CurrentRouteMatch $currentRouteMatch
+    protected CurrentRouteMatch $currentRouteMatch,
   ) {}
 
   /**

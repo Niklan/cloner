@@ -1,9 +1,8 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ConfigEntity;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\cloner\Plugin\Cloner\ConfigEntity\ClonerConfigEntityClonePluginBase;
 use Drupal\Core\Entity\EntityInterface;
 
@@ -15,7 +14,7 @@ use Drupal\Core\Entity\EntityInterface;
  *   label = @Translation("Clone image style")
  * )
  */
-class ImageStyle extends ClonerConfigEntityClonePluginBase {
+final class ImageStyle extends ClonerConfigEntityClonePluginBase {
 
   /**
    * {@inheritdoc}
@@ -25,8 +24,8 @@ class ImageStyle extends ClonerConfigEntityClonePluginBase {
     $label_key = $this->getDefinitionKey($entity_source, 'label');
 
     if (isset($context['form_state'])) {
-      /** @var \Drupal\Core\Form\FormStateInterface $form_state */
       $form_state = $context['form_state'];
+      \assert($form_state instanceof FormStateInterface);
       $destination_id = $form_state->getValue('machine_name');
       $label = $form_state->getValue('new_title');
     }

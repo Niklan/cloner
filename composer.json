@@ -15,6 +15,11 @@
         "chi-teck/drupal-coder-extension": "^2.0.0-alpha3",
         "mglaman/drupal-check": "^1.4"
     },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs -ps",
+        "phpcbf": "vendor/bin/phpcbf",
+        "phpstan": "vendor/bin/phpstan analyse"
+    },
     "authors": [
         {
             "name": "Nikita Malyshev (Niklan)",
@@ -30,5 +35,10 @@
     "support": {
         "issues": "https://www.drupal.org/project/issues/cloner",
         "source": "http://cgit.drupalcode.org/cloner"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

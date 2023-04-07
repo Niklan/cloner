@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner;
 
@@ -53,8 +51,8 @@ final class ClonerDynamicPermissions implements ContainerInjectionInterface {
       $permission_id = "access $entity_type_id cloner";
       $permissions[$permission_id] = $this->translationManager->translate(
         'Access to <em>@label</em> cloner entity form', [
-        '@label' => $entity_type->getLabel(),
-      ]);
+          '@label' => $entity_type->getLabel(),
+        ]);
     }
 
     return $permissions;

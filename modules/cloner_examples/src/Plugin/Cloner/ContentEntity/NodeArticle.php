@@ -1,9 +1,8 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ContentEntity;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityClonePluginBase;
 use Drupal\Core\Entity\EntityInterface;
 
@@ -15,7 +14,7 @@ use Drupal\Core\Entity\EntityInterface;
  *   label = @Translation("Clone node article"),
  * )
  */
-class NodeArticle extends ClonerContentEntityClonePluginBase {
+final class NodeArticle extends ClonerContentEntityClonePluginBase {
 
   /**
    * {@inheritdoc}
@@ -24,8 +23,8 @@ class NodeArticle extends ClonerContentEntityClonePluginBase {
     // If executed via ClonerForm.
     // @see \Drupal\cloner_examples\Plugin\Cloner\Form\NodeArticleCloneForm
     if (isset($context['form_state'])) {
-      /** @var \Drupal\Core\Form\FormStateInterface $form_state */
       $form_state = $context['form_state'];
+      \assert($form_state instanceof FormStateInterface);
       $entity_destination->setTitle($form_state->getValue('new_title'));
     }
   }

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin;
 
@@ -19,15 +17,13 @@ final class ClonerPluginManager extends DefaultPluginManager {
 
   /**
    * The cloner plugin type.
-   *
-   * @var string
    */
   protected string $clonerPluginType;
 
   /**
    * Cloner Plugin Manager constructor.
    *
-   * @params string $cloner_plugin_type
+   * @param string $cloner_plugin_type
    *   The cloner plugin type.
    * @param \Traversable $namespaces
    *   The namespaces.
@@ -36,7 +32,7 @@ final class ClonerPluginManager extends DefaultPluginManager {
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    */
-  public function __construct($cloner_plugin_type, \Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
+  public function __construct(string $cloner_plugin_type, \Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
 
     $this->clonerPluginType = $cloner_plugin_type;
 
@@ -52,7 +48,7 @@ final class ClonerPluginManager extends DefaultPluginManager {
       'plugin_type' => $cloner_plugin_type,
     ];
 
-    if ($cloner_plugin_type == 'form') {
+    if ($cloner_plugin_type === 'form') {
       $this->defaults += [
         'enabled' => TRUE,
         'weight' => 0,
@@ -73,7 +69,7 @@ final class ClonerPluginManager extends DefaultPluginManager {
   }
 
   /**
-   * Looking for applicable form plugins in current plugin manager.
+   * Looking for applicable form plugins in the current plugin manager.
    *
    * Used only for Form plugin types.
    *
@@ -94,18 +90,18 @@ final class ClonerPluginManager extends DefaultPluginManager {
     $applicable_plugins = [];
 
     // Collect all applicable form plugins for current entity.
-    foreach ($form_plugins as $plugin_id => $plugin_definition) {
+    foreach ($form_plugins as $plugin_definition) {
       $callback = [
         $plugin_definition['class'],
         'isApplicable',
       ];
 
-      if ($plugin_definition['enabled'] && forward_static_call($callback, $entity_type, $entity)) {
+      if ($plugin_definition['enabled'] && \forward_static_call($callback, $entity_type, $entity)) {
         $applicable_plugins[] = $plugin_definition;
       }
     }
 
-    uasort($applicable_plugins, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
+    \uasort($applicable_plugins, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
 
     return $applicable_plugins;
   }

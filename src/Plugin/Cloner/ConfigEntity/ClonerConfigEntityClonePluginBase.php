@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin\Cloner\ConfigEntity;
 
@@ -19,8 +17,6 @@ abstract class ClonerConfigEntityClonePluginBase extends ClonerClonePluginBase i
 
   /**
    * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected EntityTypeManagerInterface $entityTypeManager;
 

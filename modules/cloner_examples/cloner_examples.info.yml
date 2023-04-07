@@ -5,3 +5,5 @@ package: Development
 core_version_requirement: ^9.5 || ^10
 dependencies:
   - cloner:cloner
+  - node:node
+  - image:image

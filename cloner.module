@@ -1,46 +1,24 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /**
  * @file
  * Primary module hooks for Cloner module.
  */
 
+use Drupal\cloner\Hook\Entity\EntityOperation;
+use Drupal\cloner\Hook\Entity\EntityTypeAlter;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_entity_type_alter().
  */
 function cloner_entity_type_alter(array &$entity_types): void {
-  /** @var \Drupal\Core\Entity\EntityType[] $entity_types */
-  foreach ($entity_types as $entity_type_id => $entity_type) {
-    $entity_type->setLinkTemplate('cloner-form', "/cloner/$entity_type_id/{{$entity_type_id}}");
-  }
+  \Drupal::classResolver(EntityTypeAlter::class)($entity_types);
 }
 
 /**
  * Implements hook_entity_operation().
  */
 function cloner_entity_operation(EntityInterface $entity): array {
-  $entity_type = $entity->getEntityType();
-  /** @var \Drupal\cloner\Plugin\ClonerPluginManager $plugin_manger */
-  $plugin_manger = \Drupal::service('plugin.manager.cloner.form');
-  $operations = [];
-
-  $applicable_plugins = $plugin_manger->isApplicable($entity_type, $entity);
-
-  if (!empty($applicable_plugins)) {
-    $plugin_definition = array_shift($applicable_plugins);
-
-    if (isset($plugin_definition['entity_operation_label'])) {
-      $operations['cloner'] = [
-        'title' => $plugin_definition['entity_operation_label'],
-        'weight' => 50,
-        'url' => $entity->toUrl('cloner-form'),
-      ];
-    }
-  }
-
-  return $operations;
+  return \Drupal::classResolver(EntityOperation::class)($entity);
 }

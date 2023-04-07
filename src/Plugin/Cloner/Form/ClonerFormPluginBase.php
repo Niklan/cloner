@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin\Cloner\Form;
 
@@ -12,7 +10,7 @@ use Drupal\Core\Plugin\PluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ClonerFormPluginBase
+ * Provides cloner form plugin base.
  *
  * @package Drupal\cloner\Plugin\Cloner
  */
@@ -20,8 +18,6 @@ abstract class ClonerFormPluginBase extends PluginBase implements ClonerFormPlug
 
   /**
    * The entity object which need to be cloned.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
    */
   protected EntityInterface $entity;
 
