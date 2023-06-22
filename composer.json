@@ -8,7 +8,15 @@
     "license": "GPL-2.0+",
     "homepage": "https://www.drupal.org/project/cloner",
     "require": {
-        "drupal/core": "^8.8 || ^9"
+        "php": ">=8.1",
+        "drupal/core": "^9.5 || ^10"
+    },
+    "require-dev": {
+        "chi-teck/drupal-coder-extension": "^2.0.0-alpha4"
+    },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs -ps",
+        "phpcbf": "vendor/bin/phpcbf"
     },
     "authors": [
         {
@@ -25,5 +33,10 @@
     "support": {
         "issues": "https://www.drupal.org/project/issues/cloner",
         "source": "http://cgit.drupalcode.org/cloner"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

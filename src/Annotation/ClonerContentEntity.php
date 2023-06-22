@@ -1,28 +1,24 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * ClonerContentEntity annotation.
+ * Provides cloner content entity plugin annotation.
  *
  * @Annotation
  */
-class ClonerContentEntity extends Plugin {
+final class ClonerContentEntity extends Plugin {
 
   /**
    * The plugin ID.
-   *
-   * @var string
    */
-  public $id;
+  public string $id;
 
   /**
    * The plugin label.
-   *
-   * @var string
    */
-  public $label;
+  public string $label;
 
 }

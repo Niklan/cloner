@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin\Cloner\ConfigEntity;
 
@@ -17,50 +17,33 @@ abstract class ClonerConfigEntityClonePluginBase extends ClonerClonePluginBase i
 
   /**
    * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityTypeManager;
-
-  /**
-   * ClonerPluginBase constructor.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   */
-  public function __construct(array $configuration, string $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager) {
-
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-
-    $this->entityTypeManager = $entity_type_manager;
-  }
+  protected EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager')
-    );
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
+    $instance = new static($configuration, $plugin_id, $plugin_definition);
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+
+    return $instance;
   }
 
   /**
+   * Gets definition key.
+   *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   * @param $key
+   *   The entity object.
+   * @param string $key
+   *   The specific entity key.
    *
    * @return bool|string
+   *   The entity key, or FALSE if it does not exist.
+   *
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  protected function getDefinitionKey(EntityInterface $entity, $key) {
+  protected function getDefinitionKey(EntityInterface $entity, string $key): string|bool {
     return $this->entityTypeManager
       ->getDefinition($entity->getEntityTypeId())
       ->getKey($key);

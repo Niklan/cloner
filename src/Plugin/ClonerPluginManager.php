@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Drupal\cloner\Plugin;
 
@@ -13,19 +13,17 @@ use Symfony\Component\DependencyInjection\Container;
 /**
  * Cloner plugin manager.
  */
-class ClonerPluginManager extends DefaultPluginManager {
+final class ClonerPluginManager extends DefaultPluginManager {
 
   /**
    * The cloner plugin type.
-   *
-   * @var string
    */
-  protected $clonerPluginType;
+  protected string $clonerPluginType;
 
   /**
    * Cloner Plugin Manager constructor.
    *
-   * @params string $cloner_plugin_type
+   * @param string $cloner_plugin_type
    *   The cloner plugin type.
    * @param \Traversable $namespaces
    *   The namespaces.
@@ -34,7 +32,7 @@ class ClonerPluginManager extends DefaultPluginManager {
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
    */
-  public function __construct($cloner_plugin_type, \Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
+  public function __construct(string $cloner_plugin_type, \Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
 
     $this->clonerPluginType = $cloner_plugin_type;
 
@@ -50,7 +48,7 @@ class ClonerPluginManager extends DefaultPluginManager {
       'plugin_type' => $cloner_plugin_type,
     ];
 
-    if ($cloner_plugin_type == 'form') {
+    if ($cloner_plugin_type === 'form') {
       $this->defaults += [
         'enabled' => TRUE,
         'weight' => 0,
@@ -71,7 +69,7 @@ class ClonerPluginManager extends DefaultPluginManager {
   }
 
   /**
-   * Looking for applicable form plugins in current plugin manager.
+   * Looking for applicable form plugins in the current plugin manager.
    *
    * Used only for Form plugin types.
    *
@@ -83,7 +81,7 @@ class ClonerPluginManager extends DefaultPluginManager {
    * @return array
    *   An array with suitable plugins sorted by weight.
    */
-  public function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity) {
+  public function isApplicable(EntityTypeInterface $entity_type, EntityInterface $entity): array {
     if ($this->clonerPluginType !== 'form') {
       return [];
     }
@@ -92,18 +90,18 @@ class ClonerPluginManager extends DefaultPluginManager {
     $applicable_plugins = [];
 
     // Collect all applicable form plugins for current entity.
-    foreach ($form_plugins as $plugin_id => $plugin_definition) {
+    foreach ($form_plugins as $plugin_definition) {
       $callback = [
         $plugin_definition['class'],
         'isApplicable',
       ];
 
-      if ($plugin_definition['enabled'] && forward_static_call($callback, $entity_type, $entity)) {
+      if ($plugin_definition['enabled'] && \forward_static_call($callback, $entity_type, $entity)) {
         $applicable_plugins[] = $plugin_definition;
       }
     }
 
-    uasort($applicable_plugins, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
+    \uasort($applicable_plugins, '\Drupal\Component\Utility\SortArray::sortByWeightElement');
 
     return $applicable_plugins;
   }
