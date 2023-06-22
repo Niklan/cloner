@@ -12,13 +12,11 @@
         "drupal/core": "^9.5 || ^10"
     },
     "require-dev": {
-        "chi-teck/drupal-coder-extension": "^2.0.0-alpha3",
-        "mglaman/drupal-check": "^1.4"
+        "chi-teck/drupal-coder-extension": "^2.0.0-alpha4"
     },
     "scripts": {
         "phpcs": "vendor/bin/phpcs -ps",
-        "phpcbf": "vendor/bin/phpcbf",
-        "phpstan": "vendor/bin/phpstan analyse"
+        "phpcbf": "vendor/bin/phpcbf"
     },
     "authors": [
         {

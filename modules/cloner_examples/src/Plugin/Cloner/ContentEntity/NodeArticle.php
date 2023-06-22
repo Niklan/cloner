@@ -2,9 +2,9 @@
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ContentEntity;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\cloner\Plugin\Cloner\ContentEntity\ClonerContentEntityClonePluginBase;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Defines the 'cloner_examples_node_article' entity cloner.

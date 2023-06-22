@@ -2,9 +2,9 @@
 
 namespace Drupal\cloner_examples\Plugin\Cloner\ConfigEntity;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\cloner\Plugin\Cloner\ConfigEntity\ClonerConfigEntityClonePluginBase;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Defines the 'cloner_example_image_style' entity cloner.
